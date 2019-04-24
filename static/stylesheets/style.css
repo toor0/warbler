@@ -201,7 +201,8 @@ nav + .container {
   margin-top: -16px;
   opacity: 0.7;
   background-size: cover;
-  background-position: top center;
+  background-position: 25% center;
+  overflow: hidden;
 }
 
 .full-width {
