@@ -5,7 +5,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
 from forms import UserAddForm, LoginForm, MessageForm, EditUserForm
-from models import db, connect_db, User, Message
+from models import db, connect_db, User, Message, Like
 
 CURR_USER_KEY = "curr_user"
 
@@ -209,6 +209,16 @@ def stop_following(follow_id):
     return redirect(f"/users/{g.user.id}/following")
 
 
+@app.route('/users/<int:user_id>/likes', methods=["GET"])
+def messages_liked_list(user_id):
+    
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    return render_template('users/liked-messages.html', user=g.user)
+
+
 @app.route('/users/profile', methods=["GET", "POST"])
 def profile():
     """Update profile for current user."""
@@ -238,7 +248,6 @@ def profile():
         flash("Invalid credentials.", 'danger')
 
     return render_template('users/edit.html', form=form)
-
 
 
 @app.route('/users/delete', methods=["POST"])
@@ -306,6 +315,38 @@ def messages_destroy(message_id):
     return redirect(f"/users/{g.user.id}")
 
 
+@app.route('/messages/<int:message_id>/like', methods=["POST"])
+def messages_like(message_id):
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    like = Like(message_id=message_id, user_id=g.user.id)
+    db.session.add(like)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}/likes")
+
+
+@app.route('/messages/<int:message_id>/unlike', methods=["POST"])
+def messages_un_like(message_id):
+
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+
+    likes = (Like
+             .query
+             .filter(Like.user_id == g.user.id)
+             .filter(Like.message_id == message_id)
+             .first())
+
+    db.session.delete(likes)
+    db.session.commit()
+
+    return redirect(f"/users/{g.user.id}/likes")
+
 ##############################################################################
 # Homepage and error pages
 
@@ -327,7 +368,7 @@ def homepage():
                     .limit(100)
                     .all())
 
-        return render_template('home.html', messages=messages)
+        return render_template('home.html', messages=messages, user=g.user)
 
     else:
         return render_template('home-anon.html')

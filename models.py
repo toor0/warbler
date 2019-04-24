@@ -107,7 +107,7 @@ class User(db.Model):
     )
 
     likes = db.relationship(
-        "User",
+        "Message",
         secondary="likes",
         backref="users"
     )
@@ -195,8 +195,6 @@ class Message(db.Model):
     )
 
     user = db.relationship('User')
-
-    # likes = db.relationship("Like")
 
 
 def connect_db(app):

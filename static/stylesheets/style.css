@@ -535,3 +535,17 @@ p.card-bio {
 .message-404 .form-inline input {
   flex: 1;
 }
+
+.like-buttons {
+  z-index: 3;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.messages-like-buttons {
+  z-index: 3;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
