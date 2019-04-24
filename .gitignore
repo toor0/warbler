@@ -1,2 +1,4 @@
 generator/
 venv/
+.vscode/
+__pycache__/
