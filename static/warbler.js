@@ -1,7 +1,12 @@
 
+$("#terms").on("click", (e) => {
+    e.preventDefault();
+    $(".modal-terms").modal('toggle');
+});
+
 $("#new-message").on("click", (e) => {
     e.preventDefault();
-    $(".modal").modal('toggle');
+    $(".modal-msg").modal('toggle');
 });
 
 $('#new-message-button').on("click", async function(e) {

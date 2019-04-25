@@ -50,7 +50,7 @@
 
 
 
-<div class="modal mt-5" tabindex="-1" role="dialog">
+<div class="modal mt-5 modal-msg" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -69,12 +69,16 @@
   </div>
 </div>
 
-
+{% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ category }} col-12 alert-dismissible">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+  {% endfor %}
 
 <div class="container">
-  {% for category, message in get_flashed_messages(with_categories=True) %}
-    <div class="alert alert-{{ category }}">{{ message }}</div>
-  {% endfor %}
   {% block content %}
   {% endblock %}
 </div>

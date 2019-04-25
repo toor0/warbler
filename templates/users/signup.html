@@ -13,6 +13,22 @@
           {% endfor %}
           {{ field(placeholder=field.label.text, class="form-control") }}
         {% endfor %}
+        <p>By submitting this form, you agree to our <a id="terms" href="#">Terms of Service.</a></p>
+          <div class="modal modal-terms mt-5 mb-5" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Terms of Service</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi numquam consequuntur sint corrupti ex corporis repellendus tempore, natus expedita aliquid officiis hic? Aliquid officia nemo quas voluptatibus suscipit, minus vel velit qui obcaecati quis exercitationem nesciunt explicabo animi a consectetur fuga provident omnis. Repellendus expedita, sapiente nisi temporibus vel ratione nemo exercitationem, fuga et, commodi quidem rem quam fugit maiores consectetur alias consequuntur in dignissimos molestias ut aspernatur ipsum culpa! Neque modi accusamus eos, corporis cum, totam necessitatibus nulla ea quod in magnam praesentium facere asperiores hic odio veniam velit sed nisi officia veritatis ex animi? Optio fugiat, excepturi hic sequi mollitia placeat, incidunt consequatur impedit nam est dicta quis nobis asperiores sit quibusdam omnis, ut eum corrupti ad. Voluptatibus quia eum fugit ea laborum natus, doloremque exercitationem eaque itaque repellendus consectetur excepturi commodi facilis nulla fuga iste maxime sint corporis illum placeat beatae. Nihil culpa incidunt debitis nisi blanditiis aliquam et, impedit, excepturi quasi veniam exercitationem non assumenda veritatis officia voluptates est. Minus perspiciatis ut ad beatae repudiandae adipisci obcaecati temporibus fugit porro nihil molestiae vel numquam itaque placeat totam, qui tempora, rem laborum, quasi animi quas? Aperiam ab doloribus ad veniam, odit quasi error nemo ea nesciunt culpa!</p> 
+                </div>
+              </div>
+            </div>
+          </div>
         <button class="btn btn-primary btn-lg btn-block">Sign me up!</button>
       </form>
     </div>

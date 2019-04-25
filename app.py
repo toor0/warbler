@@ -216,6 +216,7 @@ def new_pass():
         if user:
             user.password = user.new_pwd(form.new_pwd.data)
         db.session.commit()
+        flash("Password updated!", 'success')
         return redirect(f"users/{user.id}")
     return render_template('users/password.html', form=form)
 
