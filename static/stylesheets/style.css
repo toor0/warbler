@@ -1,6 +1,8 @@
+
 /* ====================== General */
 
 body {
+  min-width: 625px;
   background-color: #e6ecf0;
 }
 
@@ -140,6 +142,14 @@ nav form.navbar-form {
 
 .onboarding {
   background-color: #fff;
+}
+
+.onboarding .all-users-link {
+  display: none !important;
+}
+
+.all-users-link {
+  display: flex;
 }
 
 @media (max-width: 468px) {
@@ -536,16 +546,31 @@ p.card-bio {
   flex: 1;
 }
 
+/* ======================= Austin/Billy custom */
+
+.message-area p {
+  width: 90%;
+}
+
 .like-buttons {
   z-index: 3;
   position: absolute;
   top: 5px;
-  right: 5px;
+  right: 18px;
 }
 
-.messages-like-buttons {
+.msg-like-buttons {
   z-index: 3;
   position: absolute;
   bottom: 5px;
-  right: 5px;
+  right: 18px;
+}
+
+.like-buttons button, .msg-like-buttons button {
+  padding: 0!important;
+  background: none!important;
+  font-size: 1.8rem;
+  border: none;
+  outline: none!important;
+  cursor: pointer;
 }

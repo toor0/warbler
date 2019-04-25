@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
+
 {% block content %}
   <div class="row">
-
     <aside class="col-md-4 col-lg-3 col-sm-12" id="home-aside">
       <div class="card user-card">
         <div>
@@ -37,7 +37,6 @@
         </div>
       </div>
     </aside>
-
     <div class="col-lg-6 col-md-8 col-sm-12">
       <ul class="list-group" id="messages">
         {% for msg in messages %}
@@ -53,23 +52,24 @@
             </div>
             <div class="like-buttons">
               {% if g.user %}
-              {% if msg in g.user.likes %}
-                <form method="POST"
-                      action="/messages/{{ msg.id }}/unlike">
-                  <button class="btn btn-primary btn-sm"><i class="fas fa-heart"></i></button>
-                </form>
-              {% else %}
-                <form method="POST"
-                       action="/messages/{{ msg.id }}/like">
-                  <button class="btn btn-outline-primary btn-sm"><i class="far fa-heart"></i></button>
-                </form>
+                {% if msg.user_id != g.user.id %}
+                  {% if msg in g.user.likes %}
+                    <form method="POST"
+                          action="/messages/{{ msg.id }}/unlike">
+                      <button><i class="fas fa-heart"></i></button>
+                    </form>
+                  {% else %}
+                    <form method="POST"
+                          action="/messages/{{ msg.id }}/like">
+                      <button><i class="far fa-heart"></i></button>
+                    </form>
+                  {% endif %}
+                {% endif %}
               {% endif %}
-            {% endif %}
             </div>
           </li>
         {% endfor %}
       </ul>
     </div>
-
   </div>
 {% endblock %}

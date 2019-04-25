@@ -1,17 +1,14 @@
 {% extends 'users/detail.html' %}
+
 {% block user_details %}
   <div class="col-sm-6">
     <ul class="list-group" id="messages">
-
       {% for message in messages %}
-
         <li class="list-group-item">
           <a href="/messages/{{ message.id }}" class="message-link"/>
-
           <a href="/users/{{ user.id }}">
             <img src="{{ user.image_url }}" alt="user image" class="timeline-image">
           </a>
-
           <div class="message-area">
             <a href="/users/{{ user.id }}">@{{ user.username }}</a>
             <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
@@ -19,23 +16,23 @@
           </div>
           <div class="like-buttons">
               {% if g.user %}
-              {% if message in g.user.likes %}
-                <form method="POST"
-                      action="/messages/{{ message.id }}/unlike">
-                  <button class="btn btn-primary btn-sm"><i class="fas fa-heart"></i></button>
-                </form>
-              {% else %}
-                <form method="POST"
-                       action="/messages/{{ message.id }}/like">
-                  <button class="btn btn-outline-primary btn-sm"><i class="far fa-heart"></i></button>
-                </form>
+                {% if message.user_id != g.user.id %}
+                  {% if message in g.user.likes %}
+                    <form method="POST"
+                          action="/messages/{{ message.id }}/unlike">
+                      <button><i class="fas fa-heart"></i></button>
+                    </form>
+                  {% else %}
+                    <form method="POST"
+                          action="/messages/{{ message.id }}/like">
+                      <button><i class="far fa-heart"></i></button>
+                    </form>
+                  {% endif %}
+                {% endif %}
               {% endif %}
-            {% endif %}
             </div>
         </li>
-
       {% endfor %}
-
     </ul>
   </div>
 {% endblock %}

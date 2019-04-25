@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
   <div class="bg"></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
@@ -34,24 +33,25 @@
             <p class="single-message">{{ message.text }}</p>
             <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
           </div>
-          <div class="messages-like-buttons">
+          <div class="msg-like-buttons">
               {% if g.user %}
-              {% if message in g.user.likes %}
-                <form method="POST"
-                      action="/messages/{{ message.id }}/unlike">
-                  <button class="btn btn-primary btn-sm"><i class="fas fa-heart"></i></button>
-                </form>
-              {% else %}
-                <form method="POST"
-                       action="/messages/{{ message.id }}/like">
-                  <button class="btn btn-outline-primary btn-sm"><i class="far fa-heart"></i></button>
-                </form>
+                {% if message.user_id != g.user.id %}
+                  {% if message in g.user.likes %}
+                    <form method="POST"
+                          action="/messages/{{ message.id }}/unlike">
+                      <button><i class="fas fa-heart"></i></button>
+                    </form>
+                  {% else %}
+                    <form method="POST"
+                          action="/messages/{{ message.id }}/like">
+                      <button><i class="far fa-heart"></i></button>
+                    </form>
+                  {% endif %}
+                {% endif %}
               {% endif %}
-            {% endif %}
             </div>
         </li>
       </ul>
     </div>
   </div>
-
 {% endblock %}

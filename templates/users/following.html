@@ -1,10 +1,9 @@
 {% extends 'users/detail.html' %}
+
 {% block user_details %}
   <div class="col-sm-9">
     <div class="row">
-
       {% for followee in user.following %}
-
         <div class="col-lg-4 col-md-6 col-12">
           <div class="card user-card">
             <div class="card-inner">
@@ -26,15 +25,12 @@
                     <button class="btn btn-outline-primary btn-sm">Follow</button>
                   </form>
                 {% endif %}
-
               </div>
               <p class="card-bio">{{ followee.bio }}</p>
             </div>
           </div>
         </div>
-
       {% endfor %}
-
     </div>
   </div>
 {% endblock %}
