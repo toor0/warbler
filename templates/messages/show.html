@@ -39,12 +39,12 @@
                   {% if message in g.user.likes %}
                     <form method="POST"
                           action="/messages/{{ message.id }}/unlike">
-                      <button><i class="fas fa-heart"></i></button>
+                      <button><i message-id="{{message.id}}" class="fas fa-heart"></i></button>
                     </form>
                   {% else %}
                     <form method="POST"
                           action="/messages/{{ message.id }}/like">
-                      <button><i class="far fa-heart"></i></button>
+                      <button><i message-id="{{message.id}}" class="far fa-heart"></i></button>
                     </form>
                   {% endif %}
                 {% endif %}

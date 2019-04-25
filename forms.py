@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
 class MessageForm(FlaskForm):
@@ -34,3 +34,11 @@ class EditUserForm(FlaskForm):
     header_image_url = StringField('(Optional) Header URL')
     bio = StringField('(Optional) Bio')
     password = PasswordField('Password', validators=[Length(min=6)])
+
+class PasswordForm(FlaskForm):
+    """Form for adding users."""
+    old_pwd = PasswordField('Old Password', validators=[Length(min=6)])
+    new_pwd = PasswordField('New Password', validators=[Length(min=6),
+                                            DataRequired(),
+                                            EqualTo('confirm', message="Passwords must match.")])
+    confirm = PasswordField('Repeat Password', validators=[Length(min=6)])

@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, flash, redirect, session, g
 # from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
-from forms import UserAddForm, LoginForm, MessageForm, EditUserForm
+from forms import UserAddForm, LoginForm, MessageForm, EditUserForm, PasswordForm
 from models import db, connect_db, User, Message, Like
 
 CURR_USER_KEY = "curr_user"
@@ -203,6 +203,23 @@ def profile():
     return render_template('users/edit.html', form=form)
 
 
+@app.route('/users/password', methods=["GET", "POST"])
+def new_pass():
+    """ """
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
+    form = PasswordForm()
+    if form.validate_on_submit():
+        user = User.authenticate(g.user.username,
+                                 form.old_pwd.data)
+        if user:
+            user.password = user.new_pwd(form.new_pwd.data)
+        db.session.commit()
+        return redirect(f"users/{user.id}")
+    return render_template('users/password.html', form=form)
+
+
 @app.route('/users/delete', methods=["POST"])
 def delete_user():
     """Delete user."""
@@ -218,21 +235,36 @@ def delete_user():
 ##############################################################################
 # Messages routes:
 
-@app.route('/messages/new', methods=["GET", "POST"])
+
+@app.route('/messages/new', methods=["POST"])
 def messages_add():
-    """Add a message:
-    Show form if GET. If valid, update message and redirect to user page.
-    """
+    """ """
     if not g.user:
         flash("Access unauthorized.", "danger")
         return redirect("/")
-    form = MessageForm()
-    if form.validate_on_submit():
-        msg = Message(text=form.text.data)
-        g.user.messages.append(msg)
-        db.session.commit()
-        return redirect(f"/users/{g.user.id}")
-    return render_template('messages/new.html', form=form)
+    msg = Message(text=request.form["text"])
+    g.user.messages.append(msg)
+    db.session.commit()
+    referrer = request.headers.get("Referer")
+    if referrer != f"/users/{g.user.id}":
+        return f"/users/{g.user.id}"
+
+    
+# @app.route('/messages/new', methods=["GET", "POST"])
+# def messages_add():
+#     """Add a message:
+#     Show form if GET. If valid, update message and redirect to user page.
+#     """
+#     if not g.user:
+#         flash("Access unauthorized.", "danger")
+#         return redirect("/")
+#     form = MessageForm()
+#     if form.validate_on_submit():
+#         msg = Message(text=form.text.data)
+#         g.user.messages.append(msg)
+#         db.session.commit()
+#         return redirect(f"/users/{g.user.id}")
+#     return render_template('messages/new.html', form=form)
 
 
 @app.route('/messages/<int:message_id>', methods=["GET"])
@@ -263,8 +295,7 @@ def messages_like(message_id):
     like = Like(message_id=message_id, user_id=g.user.id)
     db.session.add(like)
     db.session.commit()
-    referrer = request.headers.get("Referer")
-    return redirect(referrer)
+    return "message liked"
 
 
 @app.route('/messages/<int:message_id>/unlike', methods=["POST"])
@@ -280,8 +311,7 @@ def messages_un_like(message_id):
              .first())
     db.session.delete(likes)
     db.session.commit()
-    referrer = request.headers.get("Referer")
-    return redirect(referrer)
+    return "message liked"
 
 
 ##############################################################################
@@ -305,6 +335,11 @@ def homepage():
         return render_template('home.html', messages=messages, user=g.user)
     else:
         return render_template('home-anon.html')
+
+
+@app.errorhandler(404)
+def show_404_page(err):
+    return render_template("404.html")
 
 
 ##############################################################################

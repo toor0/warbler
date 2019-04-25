@@ -552,6 +552,10 @@ p.card-bio {
   width: 90%;
 }
 
+.message-area span {
+  display: block;
+}
+
 .like-buttons {
   z-index: 3;
   position: absolute;

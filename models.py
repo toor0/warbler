@@ -166,6 +166,12 @@ class User(db.Model):
 
         return False
 
+    @classmethod
+    def new_pwd(cls, password):
+        """ """
+        hashed_pwd = bcrypt.generate_password_hash(password).decode('UTF-8')
+        return hashed_pwd
+
 
 class Message(db.Model):
     """An individual message ("warble")."""
