@@ -13,6 +13,10 @@
             <a href="/users/{{ user.id }}">@{{ user.username }}</a>
             <span class="text-muted">{{ message.timestamp.strftime('%d %B %Y') }}</span>
             <p>{{ message.text }}</p>
+            <div class="mt-1">
+                <i class="fas fa-heart"></i>
+                <i id="count-{{message.id}}">{{message.likes | length}}</i>
+            </div>
           </div>
           <div class="like-buttons">
               {% if g.user %}

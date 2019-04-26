@@ -577,3 +577,7 @@ p.card-bio {
   outline: none!important;
   cursor: pointer;
 }
+
+#warbler-hero img {
+  width: 100%!important;
+}
